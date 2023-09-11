@@ -1,0 +1,14 @@
+- name: Daemon reload
+  systemd:
+    daemon_reload: true
+  listen: "reload daemon"
+
+- name: Start vault
+  service:
+    name: vault
+    state: started
+
+- name: Start consul
+  service:
+    name: consul
+    state: started

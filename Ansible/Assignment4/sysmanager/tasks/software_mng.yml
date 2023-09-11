@@ -1,0 +1,27 @@
+
+- name: "Update all packages of to their latest version"
+  apt:
+    update_cache: yes
+  when: (ansible_os_family == "Debian")
+
+- name: "Install packages on Debian"
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ install_software_items }}"
+  when: (ansible_os_family == "Debian")
+  ignore_errors: true
+
+- name: "Install packages on RedHat"
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ install_software_items }}"
+  when: (ansible_os_family == "RedHat")
+
+- name: "Uninstall packages on RedHat"
+  yum:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ uninstall_software_items }}"
+  when: (ansible_os_family == "RedHat")

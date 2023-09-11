@@ -1,0 +1,30 @@
+{
+  "LaunchTemplateName": "Avengerapp",
+  "VersionDescription": "Initial version",
+  "LaunchTemplateData": {
+    "InstanceType": "t2.micro",
+    "ImageId": "ami-0d5fa6c1a4f6ea12e",
+    "KeyName": "gone-servers",
+    "SecurityGroupIds": ["sg-09decdb19debd6a3a"],
+    "BlockDeviceMappings": [
+      {
+        "DeviceName": "/dev/xvda",
+        "Ebs": {
+          "VolumeSize": 30,
+          "VolumeType": "gp2"
+        }
+      }
+    ],
+    "TagSpecifications": [
+      {
+        "ResourceType": "instance",
+        "Tags": [
+          {
+            "Key": "instance",
+            "Value": "avengerv2"
+          }
+        ]
+      }
+    ]
+  }
+}

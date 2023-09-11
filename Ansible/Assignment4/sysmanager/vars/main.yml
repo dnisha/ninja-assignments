@@ -1,0 +1,32 @@
+install_software_items:
+  - nginx
+  - git
+
+uninstall_software_items:
+  - mysql-server
+  - openjdk-11-jdk
+
+add_users:
+  - name: deepak
+    group: QA
+  - name: ronit
+    group: Devops
+
+delete_users:
+  - deepak
+  - ronit
+
+folder_structures:
+  - name: /var/www/html
+    state: directory
+  - name: /etc/my_app
+    state: directory
+  - name: /opt/new_app
+    state: directory
+
+git_items:
+  - repo: https://github.com/barchart/marketdata-api-js.git
+    dest: /tmp/app
+    branch_name: master
+ 
+ 

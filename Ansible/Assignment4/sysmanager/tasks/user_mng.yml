@@ -1,0 +1,33 @@
+- name: Check if group exists
+  command: getent group {{ item.group }}
+  loop: "{{ add_users }}"
+  register: group_check_results
+  ignore_errors: true
+
+- name: Extract failed groups
+  set_fact:
+    failed_groups: "{{ group_check_results.results | selectattr('failed', '==', true) | map(attribute='item.group') | list }}"
+
+- name: Print failed groups
+  debug:
+    var: failed_groups
+
+- name: "Creating groups that dosnt exist"
+  group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ failed_groups }}"                        
+
+- name: "Adding users"
+  user:
+    name: "{{ item.name }}"
+    groups: "{{ item.group }}"
+    append: yes
+    state: present
+  loop: "{{ add_users }}"
+
+- name: "Deleting users"
+  user:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ delete_users }}"

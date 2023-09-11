@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Id": "Policy1694227485036",
+  "Statement": [
+    {
+      "Sid": "Stmt1694227479200",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::313578065517:role/non-prod-write-access"
+      },
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::ninja-app/nonprod/*"
+    }
+  ]
+}
