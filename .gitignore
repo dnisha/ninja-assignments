@@ -1,2 +1,3 @@
 centosdata
-.terraform
+*.terraform
+terraform.tfstat*
