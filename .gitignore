@@ -1,3 +1,6 @@
 centosdata
 *.terraform
-terraform.tfstat*
+*/terraform.tfstat*
+*/.terraform.lock*
+*.tfstate
+*.tfstate.backup

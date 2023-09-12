@@ -9,7 +9,7 @@ module "ninja_igtw" {
 module "ninja_nat_gtw" {
   source    = "./modules/nat-gw"
   ninja_eip = module.elastic_ip.aws_eip
-  subnet_id = module.ninja_public_subnet.ninja_subnet_id
+  subnet_id = module.ninja_public_subnet.ninja_subnet_id[0]
 }
 
 module "ninja_vpc" {
@@ -21,16 +21,14 @@ module "ninja_public_subnet" {
   source            = "./modules/subnet"
   vpc_id            = module.ninja_vpc.ninja_vpc_id
   availability_zone = var.availability_zone
-  cidr_block        = "10.0.0.0/24"
-  subnet_type       = "public"
+  subnet_cfg       = var.public_subnet_list
 }
 
 module "ninja_private_subnet" {
   source            = "./modules/subnet"
   vpc_id            = module.ninja_vpc.ninja_vpc_id
   availability_zone = var.availability_zone
-  cidr_block        = "10.0.1.0/24"
-  subnet_type       = "private"
+  subnet_cfg       = var.private_subnet_list
 }
 
 module "ninja_private_rt" {
@@ -58,13 +56,13 @@ module "ninja_public_route" {
 
 module "ninja_private_rt_association" {
   source    = "./modules/route-table-association"
-  subnet_id = module.ninja_private_subnet.ninja_subnet_id
+  subnet_ids = module.ninja_private_subnet.ninja_subnet_id
   rt_id     = module.ninja_private_rt.rt_id
 }
 
 module "ninja_public_rt_association" {
   source    = "./modules/route-table-association"
-  subnet_id = module.ninja_public_subnet.ninja_subnet_id
+  subnet_ids = module.ninja_public_subnet.ninja_subnet_id
   rt_id     = module.ninja_public_rt.rt_id
 }
 
