@@ -52,7 +52,23 @@ variable "priv_subnet_map" {
       cidr_block        = "10.0.3.0/24"
       availability_zone = "ap-south-1b"
     }
+  }
+}
 
+variable "pub_instance_map" {
+  type = map(object({
+    ami        = string
+    key_name = string
+  }))
 
+  default = {
+    "instance-pub-sub-01" = {
+      ami        = "ami-0f5ee92e2d63afc18"
+      key_name = "gone-servers"
+    },
+    "instance-pub-sub-02" = {
+      ami        = "ami-0f5ee92e2d63afc18"
+      key_name = "gone-servers"
+    }
   }
 }

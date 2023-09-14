@@ -6,12 +6,9 @@ output "ninja_vpc_id" {
   value = aws_vpc.ninja_vpc.id
 }
 
-output "pub_subnet_ids" {
+output "pub_subnet_id" {
   description = "Map of public subnet IDs by name"
-  value = {
-    for subnet_name, subnet in aws_subnet.pub_ninja_subnet :
-    subnet_name => subnet.id
-  }
+  value = aws_subnet.pub_ninja_subnet["ninja-pub-sub-01"].id
 }
 
 output "priv_subnet_ids" {
