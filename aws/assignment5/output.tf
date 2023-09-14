@@ -6,10 +6,10 @@ output "pub_subnet_id" {
   value = module.network.pub_subnet_id
 }
 
-output "priv_subnet_ids" {
-value = module.network.priv_subnet_ids
+output "priv_subnet_id" {
+  value = module.network.priv_subnet_id
 }
 
-output "sg_name" {
-  value = module.security.sg_name
+output "pub_sg_id" {
+  value = module.pub_security.sg_id
 }

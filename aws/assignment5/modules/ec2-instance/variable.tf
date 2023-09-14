@@ -1,27 +1,30 @@
-variable "pub_instance_map" {
+variable "instance_map" {
   type = map(object({
-    ami      = string
+    ami        = string
     key_name = string
+    associate_public_ip = bool
   }))
 
   default = {
     "instance-pub-sub-01" = {
-      ami      = "ami-0f5ee92e2d63afc18"
+      ami        = "ami-0f5ee92e2d63afc18"
       key_name = "gone-servers"
+      associate_public_ip = true
     },
     "instance-pub-sub-02" = {
-      ami      = "ami-0f5ee92e2d63afc18"
+      ami        = "ami-0f5ee92e2d63afc18"
       key_name = "gone-servers"
+      associate_public_ip = true
     }
   }
 }
 
 variable "security_groups" {
-  type    = list(string)
+  type    = set(string)
   default = ["demo-sg"]
 }
 
-variable "pub_subnet_id" {
+variable "subnet_id" {
   type    = string
   default = "123"
 }

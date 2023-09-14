@@ -11,12 +11,9 @@ output "pub_subnet_id" {
   value = aws_subnet.pub_ninja_subnet["ninja-pub-sub-01"].id
 }
 
-output "priv_subnet_ids" {
+output "priv_subnet_id" {
   description = "Map of private subnet IDs by name"
-  value = {
-    for subnet_name, subnet in aws_subnet.priv_ninja_subnet :
-    subnet_name => subnet.id
-  }
+  value = aws_subnet.priv_ninja_subnet["ninja-priv-sub-01"].id
 }
 
 output "igw_id" {
