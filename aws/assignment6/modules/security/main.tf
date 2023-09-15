@@ -26,6 +26,7 @@ resource "aws_security_group" "ninga_pub_sg" {
 
 resource "aws_network_acl" "ninja_nacl" {
   vpc_id = var.vpc_id
+  subnet_ids = var.subnet_id_list
   tags = {
     Name = "ninja-NACL"
   }

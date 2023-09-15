@@ -1,11 +1,11 @@
 variable "vpc_id" {
   type    = string
-  default = "vpc-0fc9060dc73840db8"
+  default = "vpc-0c472afd622fbc50e"
 }
 
-variable "sg_id" {
-  type    = string
-  default = "123"
+variable "subnet_id_list" {
+  type    = list(string)
+  default = ["subnet-04a1641b6a7cc3483","subnet-0abb243da627e82a2"]
 }
 
 variable "security_group" {
