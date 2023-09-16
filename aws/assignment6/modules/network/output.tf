@@ -16,6 +16,16 @@ output "priv_subnet_id" {
   value = aws_subnet.priv_ninja_subnet["ninja-priv-sub-01"].id
 }
 
+output "pub_subnet_id_list" {
+  description = "List of private subnet IDs"
+  value = values(aws_subnet.pub_ninja_subnet)[*].id
+}
+
+output "priv_subnet_id_list" {
+  description = "List of private subnet IDs"
+  value = values(aws_subnet.priv_ninja_subnet)[*].id
+}
+
 output "igw_id" {
   value = aws_internet_gateway.ninja_igw.id
 }

@@ -51,6 +51,14 @@ variable "priv_subnet_map" {
     "ninja-priv-sub-02" = {
       cidr_block        = "10.0.3.0/24"
       availability_zone = "ap-south-1b"
+    },
+    "ninja-priv-sub-03" = {
+      cidr_block        = "10.0.4.0/24"
+      availability_zone = "ap-south-1a"
+    },
+    "ninja-priv-sub-04" = {
+      cidr_block        = "10.0.5.0/24"
+      availability_zone = "ap-south-1b"
     }
   }
 }
@@ -65,12 +73,6 @@ variable "batian_instance_map" {
 
   default = {
     "instance-pub-sub-01" = {
-      ami                 = "ami-0f5ee92e2d63afc18"
-      key_name            = "gone-servers"
-      associate_public_ip = true
-      tool                = "batian"
-    },
-    "instance-pub-sub-02" = {
       ami                 = "ami-0f5ee92e2d63afc18"
       key_name            = "gone-servers"
       associate_public_ip = true
@@ -130,8 +132,8 @@ variable "pub_ninja_sg" {
 
     ingress = [
       {
-        from_port   = 80
-        to_port     = 80
+        from_port   = 0
+        to_port     = 65535
         protocol    = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
       },
@@ -139,15 +141,21 @@ variable "pub_ninja_sg" {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = ["10.0.0.0/24"]
     }]
 
     egress = [
       {
-        from_port   = 80
-        to_port     = 80
-        protocol    = "tcp"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
         cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["10.0.0.0/24"]
       }
     ]
   }
@@ -180,13 +188,122 @@ variable "priv_ninja_sg" {
 
     ingress = [
       {
+        from_port   = 0
+        to_port     = 65535
+        protocol    = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = ["10.0.0.0/24"]
     }]
 
     egress = [
-    ]
+      {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      },
+      {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["10.0.0.0/24"]
+    }]
   }
+}
+
+variable "pub_nacl_rules" {
+  type = list(object({
+    protocol    = string
+    rule_action = string
+    cidr_block  = string
+    from_port   = number
+    to_port     = number
+    egress      = bool
+  }))
+
+  default = [
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 0
+      to_port     = 65535
+      egress      = false
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "10.0.0.0/24"
+      from_port   = 22
+      to_port     = 22
+      egress      = false
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 0
+      to_port     = 65535
+      egress      = true
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "10.0.0.0/24"
+      from_port   = 1024
+      to_port     = 65535
+      egress      = true
+    }
+  ]
+}
+
+variable "priv_nacl_rules" {
+  type = list(object({
+    protocol    = string
+    rule_action = string
+    cidr_block  = string
+    from_port   = number
+    to_port     = number
+    egress      = bool
+  }))
+
+  default = [
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "10.0.0.0/24"
+      from_port   = 22
+      to_port     = 22
+      egress      = false
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 0
+      to_port     = 65535
+      egress      = false
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 1024
+      to_port     = 65535
+      egress      = true
+    },
+    {
+      protocol    = "tcp"
+      rule_action = "allow"
+      cidr_block  = "0.0.0.0/0"
+      from_port   = 0
+      to_port     = 65535
+      egress      = true
+    }
+  ]
 }

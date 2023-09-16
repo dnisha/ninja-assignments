@@ -8,13 +8,17 @@ module "network" {
 module "pub_security" {
   source         = "./modules/security"
   vpc_id         = module.network.ninja_vpc_id
+  nacl_rules     = var.pub_nacl_rules
   security_group = var.pub_ninja_sg
+  subnet_id_list = module.network.pub_subnet_id_list
 }
 
 module "priv_security" {
   source         = "./modules/security"
   vpc_id         = module.network.ninja_vpc_id
+  nacl_rules     = var.priv_nacl_rules
   security_group = var.priv_ninja_sg
+  subnet_id_list = module.network.priv_subnet_id_list
 }
 
 module "batian_instance" {
