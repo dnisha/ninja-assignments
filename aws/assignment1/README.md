@@ -107,6 +107,13 @@ Monitor the health of instances during the deployment and adjust the capacity as
 
 This approach ensures that your application remains available during the update as only a subset of instances is replaced at any given time.
 ```
+### Solution
+```
+Launch the main.sh script with recreate or rolling as argument
+
+main.sh <recreate>
+main.sh <rolling>
+```
 
 
 

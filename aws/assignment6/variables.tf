@@ -101,6 +101,7 @@ variable "private_instance_map" {
       key_name            = "gone-servers"
       associate_public_ip = false
       tool                = "vault"
+      
     }
   }
 }
@@ -306,4 +307,29 @@ variable "priv_nacl_rules" {
       egress      = true
     }
   ]
+}
+
+
+variable "console_instance_map" {
+  type = map(object({
+    ami                 = string
+    key_name            = string
+    associate_public_ip = bool
+    tool                = string
+  }))
+
+  default = {
+    "console-01" = {
+      ami                 = "ami-0f5ee92e2d63afc18"
+      key_name            = "gone-servers"
+      associate_public_ip = false
+      tool                = "console"
+    },
+    "console-02" = {
+      ami                 = "ami-0f5ee92e2d63afc18"
+      key_name            = "gone-servers"
+      associate_public_ip = false
+      tool                = "console"
+    }
+  }
 }

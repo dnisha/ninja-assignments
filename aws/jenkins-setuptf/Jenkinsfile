@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello') {
+            steps {
+                sshagent(['ansible-server']) {
+                
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@52.66.253.134'
+                }
+                echo 'Hello World'
+            }
+        }
+    }
+}
