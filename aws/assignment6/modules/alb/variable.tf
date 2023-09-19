@@ -3,11 +3,6 @@ variable "vpc_id" {
   default = "vpc-0fc9060dc73840db8"
 }
 
-# variable "vault_instance" {
-#   type    = list(string)
-#   default = ["i-0ccb628dc7f1bf799", "i-0ccb628dc7f1bf799"]
-# }
-
 variable "vault_subnet_list" {
   type    = list(string)
   default = ["subnet-04dffad7706297237", "subnet-05b73760f13f91dca"]
@@ -23,9 +18,14 @@ variable "public_sg_list" {
   default = ["sg-09decdb19debd6a3a"]
 }
 
+variable "vault_sg_list" {
+  type    = list(string)
+  default = ["sg-01c5e535d8683e4d7"]
+}
+
 variable "vault_instance" {
   type = list(object({
     id = string
   }))
-  default = [{ id = "123" }, { id = "456" }]
+  default = [{ id = "i-0538e011f57a5bb0b" }, { id = "i-060d23a0ee47bb050" }]
 }

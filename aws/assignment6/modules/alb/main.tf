@@ -29,6 +29,7 @@ resource "aws_lb" "vault_lb" {
   internal                   = false
   load_balancer_type         = "application"
   subnets                    = var.vault_subnet_list
+  security_groups            = var.vault_sg_list
   enable_deletion_protection = false
 }
 
