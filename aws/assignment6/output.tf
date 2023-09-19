@@ -14,6 +14,6 @@ output "pub_sg_id" {
   value = module.pub_security.sg_id
 }
 
-output "alb_dns" {
-  value = module.alb_attach.lb_dns
-}
+# output "alb_dns" {
+#   value = module.alb_attach.lb_dns
+# }

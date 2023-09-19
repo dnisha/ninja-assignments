@@ -21,11 +21,16 @@ module "priv_security" {
   subnet_id_list = module.network.priv_subnet_id_list
 }
 
+module "instance_iam" {
+  source         = "./modules/iam"
+}
+
 module "batian_instance" {
   source          = "./modules/ec2-instance"
   security_groups = module.pub_security.sg_id
   subnet_id       = module.network.pub_subnet_id
   instance_map    = var.batian_instance_map
+  instance_profile = module.instance_iam.bastian_role_name
 }
 
 module "vault_instance" {
@@ -33,6 +38,7 @@ module "vault_instance" {
   security_groups = module.priv_security.sg_id
   subnet_id       = module.network.priv_subnet_id
   instance_map    = var.private_instance_map
+  instance_profile = module.instance_iam.vault_role_name
 }
 
 module "console_instance" {
@@ -40,6 +46,7 @@ module "console_instance" {
   security_groups = module.priv_security.sg_id
   subnet_id       = module.network.console_subnet_id
   instance_map    = var.console_instance_map
+  instance_profile = module.instance_iam.console_role_name
 }
 
 module "alb_attach" {
