@@ -56,5 +56,6 @@ module "alb_attach" {
   vault_ami = "ami-0b8323d51e0d7eff5"
   public_sg_list = module.pub_security.sg_id
   vault_instance = module.vault_instance.instance_object
+  vault_sg_list = module.pub_security.sg_id
 }
 

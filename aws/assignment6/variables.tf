@@ -323,13 +323,13 @@ variable "console_instance_map" {
       ami                 = "ami-0f5ee92e2d63afc18"
       key_name            = "gone-servers"
       associate_public_ip = false
-      tool                = "console"
+      tool                = "consul"
     },
     "console-02" = {
       ami                 = "ami-0f5ee92e2d63afc18"
       key_name            = "gone-servers"
       associate_public_ip = false
-      tool                = "console"
+      tool                = "consul"
     }
   }
 }

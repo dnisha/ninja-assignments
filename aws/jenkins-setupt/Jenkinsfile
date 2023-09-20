@@ -6,9 +6,10 @@ pipeline {
             steps {
                 sshagent(['ansible-server']) {
                 
-                sh 'ssh -o StrictHostKeyChecking=no ubuntu@52.66.253.134'
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@${batianIp}'
+                sh 'scp setup-ansible/* ubuntu@${batianIp}:/home/ubuntu/'
+
                 }
-                echo 'Hello World'
             }
         }
     }
