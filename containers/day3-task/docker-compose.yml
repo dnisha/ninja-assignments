@@ -1,0 +1,37 @@
+version: '3.1'
+
+networks:
+  workpress-ntw:
+    driver: bridge
+
+services:
+ wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    depends_on: 
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+    networks: 
+      - workpress-ntw
+
+  db:
+    image: mysql:5.7
+    restart: always
+    env_file:
+      - db.env
+    volumes:
+      - db:/var/lib/mysql
+    networks: 
+      - workpress-ntw
+
+volumes:
+  wordpress:
+  db:

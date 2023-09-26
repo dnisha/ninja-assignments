@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: dev
+  labels:
+    app: ninja-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ninja-app
+  template:
+    metadata:
+      labels:
+        app: ninja-app
+    spec:
+      containers:
+      - name: ninja
+        image: dogra21703/ninja21:latest
+        ports:
+        - containerPort: 80
