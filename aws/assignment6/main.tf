@@ -37,25 +37,34 @@ module "vault_instance" {
   source          = "./modules/ec2-instance"
   security_groups = module.priv_security.sg_id
   subnet_id       = module.network.priv_subnet_id
-  instance_map    = var.private_instance_map
+  instance_map    = var.vault_instance_map
   instance_profile = module.instance_iam.vault_role_name
 }
 
-module "console_instance" {
+module "console_instance_az1" {
   source          = "./modules/ec2-instance"
   security_groups = module.priv_security.sg_id
   subnet_id       = module.network.console_subnet_id
-  instance_map    = var.console_instance_map
+  instance_map    = var.console_instance_az1
+  instance_profile = module.instance_iam.console_role_name
+}
+
+module "console_instance_az2" {
+  source          = "./modules/ec2-instance"
+  security_groups = module.priv_security.sg_id
+  subnet_id       = module.network.console_subnet_id2
+  instance_map    = var.console_instance_az2
   instance_profile = module.instance_iam.console_role_name
 }
 
 module "alb_attach" {
   source = "./modules/alb"
   vpc_id = module.network.ninja_vpc_id
-  vault_subnet_list = module.network.vault_subnet_ids
-  vault_ami = "ami-0b8323d51e0d7eff5"
+  alb_subnet_list = module.network.pub_subnet_id_list
+  vault_ami = "ami-0ae696fc0ea530f33"
   public_sg_list = module.pub_security.sg_id
   vault_instance = module.vault_instance.instance_object
-  vault_sg_list = module.pub_security.sg_id
+  vault_sg_list = module.priv_security.sg_id
+  vault_subnet_list = module.network.priv_subnet_id_list
 }
 

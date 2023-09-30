@@ -3,6 +3,11 @@ variable "vpc_id" {
   default = "vpc-0fc9060dc73840db8"
 }
 
+variable "alb_subnet_list" {
+  type    = list(string)
+  default = ["subnet-04dffad7706297237", "subnet-05b73760f13f91dca"]
+}
+
 variable "vault_subnet_list" {
   type    = list(string)
   default = ["subnet-04dffad7706297237", "subnet-05b73760f13f91dca"]

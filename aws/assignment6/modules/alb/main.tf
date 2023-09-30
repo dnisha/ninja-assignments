@@ -1,6 +1,6 @@
 resource "aws_lb_target_group" "vault_tg" {
   name        = "vault-group"
-  port        = 80
+  port        = 8200
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "instance"
@@ -8,9 +8,9 @@ resource "aws_lb_target_group" "vault_tg" {
   health_check {
     enabled             = true
     interval            = 30
-    port                = 80
+    port                = 8200
     protocol            = "HTTP"
-    path                = "/"
+    path                = "/v1/sys/health?uninitcode=200"
     timeout             = 5
     healthy_threshold   = 2
     unhealthy_threshold = 2
@@ -28,8 +28,8 @@ resource "aws_lb" "vault_lb" {
   name                       = "vault-alb"
   internal                   = false
   load_balancer_type         = "application"
-  subnets                    = var.vault_subnet_list
-  security_groups            = var.vault_sg_list
+  subnets                    = var.alb_subnet_list
+  security_groups            = var.public_sg_list
   enable_deletion_protection = false
 }
 
@@ -48,7 +48,7 @@ resource "aws_launch_configuration" "vault_lc" {
   name_prefix   = "vault-lc"
   image_id      = var.vault_ami
   instance_type = "t2.micro"
-
+  iam_instance_profile = "vault_profile"
   security_groups             = var.public_sg_list
   key_name                    = "gone-servers"
   associate_public_ip_address = false
@@ -61,8 +61,8 @@ resource "aws_launch_configuration" "vault_lc" {
 resource "aws_autoscaling_group" "vault_asg" {
   name                 = "vault-asg"
   min_size             = 2
-  max_size             = 4
-  desired_capacity     = 3
+  max_size             = 2
+  desired_capacity     = 2
   launch_configuration = aws_launch_configuration.vault_lc.name
   vpc_zone_identifier  = var.vault_subnet_list
 
