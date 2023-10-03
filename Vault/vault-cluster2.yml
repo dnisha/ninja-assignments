@@ -1,0 +1,28 @@
+version: '3'
+services:
+  vault:
+    image: vault:1.13.3
+    container_name: vault2
+    ports:
+      - 8200:8200
+    volumes:
+      - ./config:/vault/config
+      - ~/vault2:/vault/logs
+    command: server
+    networks:
+      - vault-net2
+    cap_add:
+      - IPC_LOCK
+  consul:
+    image: consul:1.15.1
+    container_name: consul2
+    command: agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    networks:
+      - vault-net2
+
+
+networks:
+  vault-net2:

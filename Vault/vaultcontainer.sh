@@ -13,3 +13,6 @@ docker run --cap-add=IPC_LOCK -e 'VAULT_LOCAL_CONFIG={"storage": {"file": {"path
 
 # To enable audit log
 # vault audit enable file file_path=/vault/logs/vault.log
+
+# Initialize
+# vault operator init -key-shares=1 -key-threshold=1

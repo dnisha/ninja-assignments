@@ -16,3 +16,6 @@ vault secrets disable aws
 
 Unseal command:-
 vault operator init
+
+
+#https://www.liquidweb.com/kb/vault-secrets/

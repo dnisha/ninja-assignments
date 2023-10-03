@@ -1,0 +1,18 @@
+[Unit]
+Description=Consul server agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+PermissionsStartOnly=true
+ExecStart=consul agent \
+    -config-file=/etc/consul/consul.json
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=30s
+
+
+[Install]
+WantedBy=multi-user.target
