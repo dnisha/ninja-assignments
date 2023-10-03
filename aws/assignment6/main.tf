@@ -18,7 +18,15 @@ module "priv_security" {
   vpc_id         = module.network.ninja_vpc_id
   nacl_rules     = var.priv_nacl_rules
   security_group = var.priv_ninja_sg
-  subnet_id_list = module.network.priv_subnet_id_list
+  subnet_id_list = module.network.vault_subnet_ids
+}
+
+module "consul_security" {
+  source         = "./modules/security"
+  vpc_id         = module.network.ninja_vpc_id
+  nacl_rules     = var.consul_nacl_rules
+  security_group = var.consul_ninja_sg
+  subnet_id_list = module.network.consul_subnet_ids
 }
 
 module "instance_iam" {
@@ -43,7 +51,7 @@ module "vault_instance" {
 
 module "console_instance_az1" {
   source          = "./modules/ec2-instance"
-  security_groups = module.priv_security.sg_id
+  security_groups = module.consul_security.sg_id
   subnet_id       = module.network.console_subnet_id
   instance_map    = var.console_instance_az1
   instance_profile = module.instance_iam.console_role_name
@@ -51,7 +59,7 @@ module "console_instance_az1" {
 
 module "console_instance_az2" {
   source          = "./modules/ec2-instance"
-  security_groups = module.priv_security.sg_id
+  security_groups = module.consul_security.sg_id
   subnet_id       = module.network.console_subnet_id2
   instance_map    = var.console_instance_az2
   instance_profile = module.instance_iam.console_role_name
